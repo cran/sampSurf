@@ -1,0 +1,56 @@
+
+import(methods)
+importFrom(graphics, plot, hist)
+import(sp)
+#importFrom("sp", bbox, Spatial, SpatialGrid, SpatialGridDataFrame, plot)
+import(raster)
+#import(gpclib)
+importFrom("gpclib", intersect)  #this takes care of the plot warning
+
+
+#exportPattern("^[[:alpha:]]+")
+
+
+export(.StemEnv)            #for now, eventually hide it <<*******
+export(initRandomSeed, transparentColorBase)
+
+export(sampleLogs, boltDimensions, taperInterpolate)
+export(bboxCheck, bboxToPoly, bboxSum)
+
+export(izGridConstruct) #for now, eventually hide it?
+export(gridCellEnhance) #ibid
+
+exportClasses(Stem, downLog, downLogs)
+exportClasses(ArealSampling, circularPlot, pointRelascope, perpendicularDistance,
+              distanceLimited)
+exportClasses(Tract, bufferedTract)
+exportClasses(InclusionZone, InclusionZoneGrid, csFullInclusionZoneGrid,
+              downLogIZ, standUpIZ, sausageIZ, chainSawIZ,
+              pointRelascopeIZ, perpendicularDistanceIZ, omnibusPDSIZ,
+              distanceLimitedMCIZ, distanceLimitedIZ,
+              distanceLimitedPDSIZ, omnibusDLPDSIZ)
+exportClasses(izContainer, downLogIZs)
+exportClasses(sampSurf)
+
+#export required for all methods with external generics...
+exportMethods(plot, summary, show, hist)
+exportMethods(bbox, perimeter, plot3D, area)
+
+#and evidently for all internal methods/generics...
+exportMethods(downLog, downLogs)
+exportMethods(circularPlot, pointRelascope, perpendicularDistance, distanceLimited)
+exportMethods(standUpIZ, sausageIZ, chainSawIZ, pointRelascopeIZ,
+              perpendicularDistanceIZ, omnibusPDSIZ,
+              distanceLimitedMCIZ, distanceLimitedIZ,
+              distanceLimitedPDSIZ, omnibusDLPDSIZ)
+exportMethods(downLogIZs)
+exportMethods(Tract, bufferedTract)
+exportMethods(izGrid, izGridCSFull)
+exportMethods(heapIZ)
+exportMethods(sampSurf)
+#exportMethods(Plot)
+
+
+
+
+
