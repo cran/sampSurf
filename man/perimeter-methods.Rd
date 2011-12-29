@@ -4,14 +4,16 @@
 \alias{perimeter,chainSawIZ-method}
 \alias{perimeter,circularPlot-method}
 \alias{perimeter,downLog-method}
-\alias{perimeter,downLogIZs-method}
-\alias{perimeter,downLogs-method}
+\alias{perimeter,standingTree-method}
+\alias{perimeter,StemContainer-method}
 \alias{perimeter,sampSurf-method}
 \alias{perimeter,sausageIZ-method}
 \alias{perimeter,standUpIZ-method}
 \alias{perimeter,pointRelascopeIZ-method}
 \alias{perimeter,perpendicularDistanceIZ-method}
 \alias{perimeter,distanceLimitedMCIZ-method}
+\alias{perimeter,circularPlotIZ-method}
+\alias{perimeter,izContainer-method}
 \alias{perimeter,Tract-method}
 
 \title{ Methods for Function perimeter in Package `sampSurf' }
@@ -31,20 +33,22 @@
 	Returns the spatial object associated with the perimeter of the down
     log.}
 
-  \item{\strong{\code{signature(object = "downLogs")}}}{ %\cr
+  \item{\strong{\code{signature(object = "standingTree")}}}{%\cr
+
+	Returns the spatial object associated with the perimeter of the standing
+    tree.}
+
+  \item{\strong{\code{signature(object = "StemContainer")}}}{ %\cr
 
 	Returns the spatial object associated with the bounding box for the
-    collection of \dQuote{downLog} objects.}
+    collection of \dQuote{downLog} or \dQuote{standingTree} objects
+    within the appropriate \dQuote{downLogs} or \dQuote{standingTrees}
+    container objects, respectively.}
 
   \item{\strong{\code{signature(object = "circularPlot")}}}{ %\cr
 
 	Returns the spatial object associated with the perimeter of the
     circular plot. }
-
-  \item{\strong{\code{signature(object = "downLogIZs")}}}{% \cr
-
-	Returns the spatial object associated with the bounding box for the
-    collection of \dQuote{downLogIZ} objects.}
 
   \item{\strong{\code{signature(object = "sausageIZ")}}}{ %\cr
 
@@ -92,12 +96,23 @@
 	Returns the spatial object associated with the perimeter of the
     inclusion zone. }
 
- \item{\strong{\code{signature(object = "Tract")}}}{ %\cr
+  \item{\strong{\code{signature(object = "circularPlotIZ")}}}{ %\cr
+
+	Returns the spatial object associated with the perimeter of the
+    inclusion zone. Also handles objects of subclass
+    "\code{\linkS4class{horizontalPointIZ}}". }
+
+  \item{\strong{\code{signature(object = "izContainer")}}}{% \cr
+
+	Returns the spatial object associated with the bounding box for the
+    collection of \dQuote{izContainer} subclass objects.}
+
+  \item{\strong{\code{signature(object = "Tract")}}}{ %\cr
 
    Returns the spatial object associated with the perimeter of the
    \dQuote{Tract}. }
 
- \item{\strong{\code{signature(object = "sampSurf")}}}{%\cr
+  \item{\strong{\code{signature(object = "sampSurf")}}}{%\cr
 
    Returns the spatial object associated with the perimeter of the
    \code{tract} slot in the object.}
