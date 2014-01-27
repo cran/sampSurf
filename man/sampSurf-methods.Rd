@@ -24,10 +24,9 @@
 	  object to this constructor to generate the surface. }
   
   \item{}{\bold{usage\ldots}
-    \preformatted{function(object, 
+    \preformatted{sampSurf(object, 
          tract,
-         estimate = unlist(.StemEnv$puaEstimates),
-         wantChainSaw = FALSE,
+         estimate = unlist(c(.StemEnv$puaEstimates, .StemEnv$ppEstimates)),
          description = 'sampling surface object',
          runQuiet = FALSE,
          ... )}
@@ -39,12 +38,10 @@
 	  \item{\code{tract}:}{ An object of class "Tract" or subclass.}
 		 
 	  \item{\code{estimate}:}{ A character variable corresponding to the
-	  desired estimate attribute; these include 'volume', 'Length' (logs),
-	  'Density', 'surfaceArea', 'coverageArea' (logs), 'basalArea'
-	  (trees), 'biomass' and 'carbon'.}
-		
-	  \item{\code{wantChainSaw}:}{ \code{TRUE}: if the full chainsaw
-	    method is desired; \code{FALSE}: if not (default).}
+	  desired estimate attribute; these include 'volume', 'Length'
+	  (logs), 'Density', 'surfaceArea', 'coverageArea' (logs),
+	  'basalArea' (trees), 'biomass' and 'carbon'. The sample 'depth'
+	  surface is now also available.}
 		
 	  \item{\code{description}:}{ A description of the object as a
 	    character string.}
@@ -72,11 +69,10 @@
 	  surface. }
   
   \item{}{\bold{usage\ldots}
-    \preformatted{function(object, 
+    \preformatted{sampSurf(object, 
          tract,
          iZone, 
          estimate = unlist(.StemEnv$puaEstimates),
-         wantChainSaw = FALSE,               
          description = 'sampling surface object',
          runQuiet = FALSE,
          ...
@@ -87,11 +83,7 @@
 	    (i.e., down logs) to generate in the population. }
 		 
 	  \item{\code{iZone}:}{ The type of inclusion zone or sampling
-	    method/protocol desired. Note that if you want the chainsaw
-	    method, you must specify a sausage inclusion zone and set
-	    \code{wantChainSaw} to \code{TRUE} as the entire whole-log
-	    inclusion zone is calculated for each log in the population (be
-	    prepared to wait a bit). The routine will determine whether to
+	    method/protocol desired. The routine will determine whether to
 	    generate logs or trees based on this argument.}
 	  
 	  \item{... :}{ Other arguments to be passed along to routines that

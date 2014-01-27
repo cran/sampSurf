@@ -55,6 +55,13 @@
 .StemEnv$smpHectare = 10000
 .StemEnv$sfpAcre = 43560
 
+#used in, e.g., mirage, walkthrough...
+.StemEnv$cardinal = c('north', 'south', 'east', 'west')
+.StemEnv$Cardinal = c('North', 'South', 'East', 'West')
+
+
+
+
 #the following is ba in ft^2 or m^2 conversion, NOT the BAF for prism cruising!...
 .StemEnv$baFactor = c( English = pi/4, metric = pi/4)     #dbh in feet or meters
 #.StemEnv$baFactor = c( English = pi/(4*144), metric = pi/(4*10000) ) #dbh in inches or cm
@@ -84,8 +91,12 @@
                              coverageArea = 'coverageArea',        #projected coverage area--down logs
                              biomass = 'biomass',                  #could be green or dry
                              carbon = 'carbon',                    #carbon content
-                             basalArea = 'basalArea'               #basal area for standing trees
+                             basalArea = 'basalArea',              #basal area for standing trees
+                             variance = 'variance'                 #required for MC methods 
                             )
+#not pua or estimates, other sampling related attributes: pp stands for per point...
+.StemEnv$ppEstimates = list(depth = 'depth')                       #sample or overlap depth per point
+                        
 #
 #  these are the valid estimates from the above list for each main subclass of Stem object...
 #
@@ -113,11 +124,6 @@
 #
 .StemEnv$pdsTypes = c('volume', 'surfaceArea', 'coverageArea')  #main PPS variable
 
-
-#
-#   critical height and importance variants of CHS...
-#
-.StemEnv$referenceCHSIZ = c('butt', 'dbh') #reference height for critical height inclusion zone
 
 #
 #   some plausible species codes/names--note that they can be any character string...
@@ -169,6 +175,18 @@
 
 .StemEnv$gridLineColor = transparentColorBase('slategray',.StemEnv$alphaTrans)
 .StemEnv$gridCenterColor = transparentColorBase('firebrick4',.StemEnv$alphaTrans)
+
+
+#
+#   critical height and importance variants of CHS...
+#
+.StemEnv$referenceCHSIZ = c('butt', 'dbh') #reference height for critical height inclusion zone
+
+#
+#   Monte Carlo Sampling (importance, etc.)...
+#
+.StemEnv$isHeightColor = transparentColorBase('tan4',                    #height locations
+                                    ifelse(1.5*.StemEnv$alphaTrans>1, 1, 1.5*.StemEnv$alphaTrans))
 
 
 #
@@ -242,11 +260,14 @@ rm(wbTaper)                                           #and remove from .GlobalEn
 #
 #  To get actual bolt volume of a segment somewhere on the stem, call this twice,
 #  first with the shorter length, then the longer length (both defining the bolt)
-#  and get the volume by subtraction
+#  and get the volume by subtraction--see segmentVolumes() and chainsawSliver
+#  for examples--but now one should simply use segmentVolumes 25-Apr-2013.
 #
 wbVolume = function(botDiam, topDiam, logLen, solidType, boltLen=NULL) {
     if(is.null(solidType) || solidType < .StemEnv$solidTypes[1] || solidType > .StemEnv$solidTypes[2])
-      stop('solidType=',solidType,' out of range, must be in: (',solidType[1],',',solidType[2],')')
+      stop('solidType=',solidType,' out of range, must be in: (',
+           .StemEnv$solidTypes[1],',',.StemEnv$solidTypes[2],')')
+    
     r = solidType
     k = 1/4                              #diameter to radius; diam to length units conversion==1
     if(is.null(boltLen))
@@ -255,8 +276,8 @@ wbVolume = function(botDiam, topDiam, logLen, solidType, boltLen=NULL) {
       h = boltLen                        #some intermediate volume
                                          
     logVol = pi*k*topDiam^2*h +
-             pi*k*logLen*(botDiam - topDiam)^2*r/(4+r)*(1-(1-h/logLen)^(4+r/r)) +
-             2*pi*k*logLen*topDiam*(botDiam - topDiam)*r/(2+r)*(1-(1-h/logLen)^(2+r/r))
+             pi*k*logLen*(botDiam - topDiam)^2*r/(4+r)*(1-(1-h/logLen)^((4+r)/r)) +
+             2*pi*k*logLen*topDiam*(botDiam - topDiam)*r/(2+r)*(1-(1-h/logLen)^((2+r)/r))
     #logVol = pi*k*logLen*((buttD-topD)^2*(r/(r+4)) + topD*(topD + 2*(buttD-topD)*(r/(r+2))))
     return(logVol)
 }   #wbVolume
@@ -302,6 +323,69 @@ assign('SmalianVolume', SmalianVolume, envir=.StemEnv)     #move to .StemEnv
 environment(.StemEnv$SmalianVolume) = .StemEnv             #assign its environment
 rm(SmalianVolume)                                          #and remove from .GlobalEnv
 
+
+
+#================================================================================
+#
+#  spline volume function based on taper points...
+#
+#  taper = the taper data frame for the stem object
+#  lenBot = length at the beginning of the section (default whole stem)
+#  lenTop = length at the top of the section (default whole stem)
+#  isLog = TRUE: a "downLog" object; FALSE: a "standingTree" object
+#  units = units for the stem (doesn't really matter as csa conversion is the
+#          same for both--see .StemEnv$baFactor above)
+#
+#  Please note: Always pass the entire log's taper data frame as the first argument,
+#               even if you only want some intermediate bolt volume, as
+#               the spline function is defined on the entirety of what is in
+#               taper, and will not reflect the entire stem if only that portion
+#               is passed that contains the bolt, for example.
+#
+#  Also: The reason we do not simply pass a "Stem" subclass object instead of
+#        taper, units, etc. here is that we want this routine to possibly be of
+#        use in the constructor of a "Stem" object. We could, of course, make
+#        this a generic with "data.frame" and "Stem" signatures--see commented-out
+#        section below...
+#
+#  Additionally, lenBot is the length to the bottom of the bolt to be integrate,
+#  and lenTop is to the top of the bolt, both are relative to the butt of the
+#  stem, which is always zero in a "Stem" subclass object. 
+#
+splineVolume = function(taper, lenBot, lenTop, isLog=TRUE, units='metric') {
+    if(isLog)
+      length = taper$length
+    else
+      length = taper$height
+    if(lenBot > lenTop || lenBot < 0 || lenTop < 0 || lenTop > max(length))
+      stop('Nonsensical lengths in splineVolume!')
+    diameter = taper$diameter
+
+#splineVolume = function(stemObject, lenBot, lenTop) {
+  #  if(!is(stemObject, 'Stem'))
+  #    stop('You must pass a \"Stem"\" subclass object to splineVolume!')
+  #  taper = stemObject@taper
+  #  if(is(stemObject, 'downLog'))
+  #    length = taper$length
+  #  else
+  #    length = taper$height      
+  #  diameter = taper$diameter
+    
+  #  if(lenBot > lenTop || lenBot < 0 || lenTop < 0 || lenTop > max(length))
+  #    stop('Nonsensical lengths in splineVolume!')
+  #  units = stemObject@units
+
+    #cross-sectional area (ba) conversion factor and height to dbh...
+    csaFactor =  ifelse(units==.StemEnv$msrUnits$English, .StemEnv$baFactor['English'],
+                       .StemEnv$baFactor['metric'])
+    
+    csa.spline = splinefun(length, csaFactor*diameter^2)    #spline the cross-sectional area
+    vol = integrate(csa.spline, lenBot, lenTop)$value       #integrates "hgt" from lenBot to lenTop
+    return(vol)
+} #splineVolume
+assign('splineVolume', splineVolume, envir=.StemEnv)       #move to .StemEnv
+environment(.StemEnv$splineVolume) = .StemEnv                   #assign its environment
+rm(splineVolume)                                                #and remove from .GlobalEnv
   
 
 

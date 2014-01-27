@@ -7,6 +7,10 @@
 \alias{numericNULL-class}
 \alias{monteNTSampleOrNULL-class}
 \alias{monteBSSampleOrNULL-class}
+\alias{horizontalPointMonteCarloSamplingIZ-class}
+\alias{SPNULL-class}
+\alias{RLNULL-class}
+\alias{izgNULL-class}
 
 \title{Class Unions in \pkg{sampSurf} }
 
@@ -30,6 +34,15 @@ Here are the class unions in the \pkg{sampSurf} package and their usage.
     \dQuote{numeric} or \code{NULL} is appropriate. Currently, this is
     only used in the \code{solidType} slot of a \dQuote{downLog}
     object.}
+  
+  \item{\code{SPNULL}:}{ Used where a class of either
+    \dQuote{SpatialPolygons} or \code{NULL} is appropriate.}
+  
+  \item{\code{RLNULL}:}{ Used where a class of either
+    \dQuote{RasterLayer} or \code{NULL} is appropriate.}
+  
+  \item{\code{izgNULL}:}{ Used where a class of either
+    \dQuote{InclusionZoneGrid} or \code{NULL} is appropriate.}
 
   
   \item{\code{monteNTSampleOrNULL}:}{ Used where a class of either
@@ -37,7 +50,15 @@ Here are the class unions in the \pkg{sampSurf} package and their usage.
   
   \item{\code{monteBSSampleOrNULL}:}{ Used where a class of either
     \dQuote{monteBSSample} (or subclass) or \code{NULL} is appropriate.}
-   
+  
+  \item{\code{horizontalPointMonteCarloSamplingIZ}:}{ This is used to
+    collect all of the classes that allow Monte Carlo subsampling within
+    a horizontal point first stage sample. The class is only used to
+    make it simpler to have one \code{izGrid} function apply to all of
+    the methods. Note that this does not include the critical
+    height-based Monte Carlo methods. }
+
+	
 }
 }
 

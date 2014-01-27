@@ -19,14 +19,14 @@
   "numeric")}}}{}
   
   \item{}{\bold{usage\ldots}
-    \preformatted{function(downLog,
-         plotRadius,
-         nptsHalfCircle = 50,         
-         description = 'inclusion zone for dowed log "sausage" sampling method',
-         spID = unlist(strsplit(tempfile('sausageIZ:',''),'\\/'))[2],
-         spUnits = CRS(projargs=as.character(NA)),
-         ...
-        )}
+    \preformatted{sausageIZ(downLog,
+          plotRadius,
+          nptsHalfCircle = 50,         
+          description = 'inclusion zone for dowed log "sausage" sampling method',
+          spID = unlist(strsplit(tempfile('sausageIZ:',''),'\\/'))[2],
+          spUnits = CRS(projargs=as.character(NA)),
+          ... )}
+		 
     \itemize{
 				
 	  \item{\code{downLog}:}{ An object of class
@@ -45,8 +45,7 @@
 		object.}
 		
 	  \item{\code{spID}:}{ A unique identifier that will be used in
-	    displaying the spatial polygon for the circular plot component
-	    of the object.}
+	    displaying the spatial polygon component of the object.}
 
 	  \item{\code{spUnits}:}{ A valid \code{\link{CRS}} object
         specifying the Coordinate Reference System. This defaults to
