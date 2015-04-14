@@ -68,6 +68,9 @@ chainsawSliver = function(downLog,
 #   This code was converted from the fixed-radius plot study to be used in
 #   the sampSurf package, 30-Aug-2010, JHG.
 #
+#   14-April-2015: added explicit reference to rgeos in calling area.poly as
+#   it was causing problems with example checks on CRAN for some reason.
+#
 #Author...									Date: 15-June-2010
 #	Jeffrey H. Gove
 #	USDA Forest Service
@@ -114,7 +117,7 @@ chainsawSliver = function(downLog,
     dimnames(sect) = dn
     sect[,'x'] = sect[,'x'] + halfLen
     gSect = as(sect[,-3],'gpc.poly')
-    sectArea = area.poly(gSect)
+    sectArea = rgeos::area.poly(gSect)   #make this explicit on rgeos
 
 #    
 #   determine the minimal bounding bolt that will enclose the sliced section;
@@ -167,8 +170,8 @@ chainsawSliver = function(downLog,
 #
 #   get the areas required for volume apportionment...
 #
-    boltArea = area.poly(gBolt)
-    propArea = sectArea/boltArea   #proportion of bolt area in the plot inter-section
+    boltArea = rgeos::area.poly(gBolt)   #make this explicit on rgeos
+    propArea = sectArea/boltArea         #proportion of bolt area in the plot inter-section
 
 #    
 #   calculate bolt and sliver section volume, the latter assuming volume gets apportioned

@@ -1,4 +1,4 @@
-31889eb5b487c7eab66aceb4be58467e *DESCRIPTION
+05426c8dfecff567484b99b9f69678be *DESCRIPTION
 2c2d519a3616ec955b5cd1f8324641a0 *NAMESPACE
 4420e58f6a6fd452a7e9d3eba3ceb332 *R/ArealSamplingClass.R
 86631beb1dc84ca5d42d737c247c5e10 *R/ArealSamplingConstructors.R
@@ -12,7 +12,7 @@ f51297076e71fa42c08a99f4775676ee *R/InclusionZoneGridClass.R
 49a4c40c9a8ccf743d36f224a10e03ca *R/MonteCarloProxy.R
 bbef56ac187441699cab9857d814bab6 *R/StemClass.R
 fd30a06b50f2698700f3e5f91aff8394 *R/StemContainerClass.R
-9e33fa755039f6b33912aaa8e0472101 *R/TractClass.R
+f27871a6e08b79141bf563c4da1c0403 *R/TractClass.R
 80ec8768cf263a0bdaca98e61fb20ecc *R/TractConstructors.R
 7b653ae7e58bb01f81e9d9b988636618 *R/antitheticCHS.R
 bd9c27b26d0f0b3bb3762af17f9c9831 *R/area.R
@@ -21,7 +21,7 @@ a4c382f810c3a0b894d40ec9c5d96530 *R/bboxCheck.R
 885bced5933d50a4da4f8d7649590069 *R/bboxSum.R
 722028056fea0226633f2a9ebcfc43e7 *R/bboxToPoly.R
 9a154ec905ac1e9c78650511843169fc *R/boltDimensions.R
-1a4c51321266e939b2593b0efea353e6 *R/chainsawSliver.R
+810f22d812d712fc6cde522c169ec908 *R/chainsawSliver.R
 badff01af525371a98a14b893e8b3688 *R/checkStemDimensions.R
 96ebb8fb384a3bdbd7043f1da58765ba *R/clipStemsToTract.R
 fb9538b42fffaf909cc913f480138db1 *R/criticalHeightSampling.R
@@ -86,17 +86,17 @@ e64a803eb461f1b0923389a6d7cac91f *R/summaryInclusionZoneGrid.R
 6bf5c08b6dd4f842666c744fa24cd937 *R/transfMatrix.R
 0e392c5ddc7a4a8de7c826b3a63be96a *R/transparentColorBase.R
 e7674a47a9a4702fa5c9d2ae76c3da83 *R/zzz.R
-266ec5668e614f5ed9dc7cc7252d4f67 *build/vignette.rds
-1219ee52948c40229884d5ea121cde73 *inst/doc/ArealSamplingClass.pdf
+be2031c057c839eb340874f1f2b3f868 *build/vignette.rds
+b4257b8cbb7d3fd11b9b045230dbaef1 *inst/doc/ArealSamplingClass.pdf
 9f6b67f26254c9bcc9bcb6d03fc585e0 *inst/doc/GettingStarted.R
-c390dfc7463928d3cd2f8da072e2ed02 *inst/doc/GettingStarted.Rnw
-7a7e04f00d445fa6ba8d5c9a0ff96e7e *inst/doc/GettingStarted.pdf
-e8524956392fb8648072e3ad462d179d *inst/doc/InclusionZoneClass.pdf
-e14921b9bfabb221e1d1394332b6671e *inst/doc/InclusionZoneGridClass.pdf
-736a006d4d1e31fe1c679514e9648dc0 *inst/doc/Overview.pdf
-d31df34c3044a4cd3e3ae3f5c12e0f42 *inst/doc/StemClass.pdf
-bc229099b4d6209501b4608dbe04ffb9 *inst/doc/TractClass.pdf
-87a5fa4eef4fd115565304c5e564b881 *inst/doc/sampSurfClass.pdf
+8b63af7ef66bae0c81cf1144a95db122 *inst/doc/GettingStarted.Rnw
+c1c2dd6d472be9762dab68674d0a9863 *inst/doc/GettingStarted.pdf
+0ce50a28545c61997e2d8814f2b5cea6 *inst/doc/InclusionZoneClass.pdf
+48ea91fa65426aa465c17f6083c18aa3 *inst/doc/InclusionZoneGridClass.pdf
+ef5296660714c7a6c1d9bbf104a3b89d *inst/doc/Overview.pdf
+6154efffd47353fd2acc0e21f65004a2 *inst/doc/StemClass.pdf
+13260943366fe6c26acb37545e4dd802 *inst/doc/TractClass.pdf
+83af84c3a1085960bcbe2e84bfa7e82e *inst/doc/sampSurfClass.pdf
 c042a135e41f73b77536aa6c6e60fbe5 *man/ArealSampling-class.Rd
 fe5bf49c0b86bc909998389f2ed6b05a *man/InclusionZone-class.Rd
 e12bb09f16ed028c1ff2e0dfcf7bf059 *man/InclusionZoneGrid-class.Rd
@@ -131,7 +131,7 @@ f441d002d88bc453135183f0615474d5 *man/area.Rd
 553b2e9c7ef2e8c6ac297ccbb8964c89 *man/bufferedTract.Rd
 ce191c4f6a0bf8b3e263eca03620ade7 *man/chainSawIZ-class.Rd
 c72bd4878266eaade0bef3e16f4442f9 *man/chainSawIZ-methods.Rd
-bc56b95da8ae6f189312a187840004c5 *man/chainSawIZ.Rd
+99a468c72370cf17c3f0477af4db6ca0 *man/chainSawIZ.Rd
 80bfa06baec5866c257669c93ae7fce2 *man/checkStemDimensions.Rd
 9e1ae81a640acdaaaec8073fc96fc4eb *man/circularPlot-class.Rd
 6e855162b20794248f8d8df0d37691d5 *man/circularPlot-methods.Rd
@@ -295,4 +295,4 @@ d6a6123054e587f8e49bd33c23e9491f *man/standingTrees-class.Rd
 9bcfb3592267f7bfeb0625425a50c050 *man/taperInterpolate-methods.Rd
 d86faf823b04e1f0c045f1b44c240fdc *man/taperInterpolate.Rd
 ed6b6eeb4b60c76b60c3facb116e27e5 *man/transparentColorBase.Rd
-c390dfc7463928d3cd2f8da072e2ed02 *vignettes/GettingStarted.Rnw
+8b63af7ef66bae0c81cf1144a95db122 *vignettes/GettingStarted.Rnw
